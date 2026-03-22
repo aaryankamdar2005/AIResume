@@ -38,7 +38,7 @@ function App() {
   const isAuthRoute = location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/register';
 
   return (
-    <div className="min-h-screen flex bg-gray-50 font-sans text-gray-900 w-full overflow-hidden">
+    <div className="min-h-screen flex bg-background-primary font-sans text-text-primary w-full overflow-hidden">
       {isAuthenticated && isAuthRoute && <Sidebar />}
       <main className="flex-grow flex flex-col h-screen overflow-hidden">
           <Routes>
