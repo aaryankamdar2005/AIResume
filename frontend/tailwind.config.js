@@ -29,23 +29,23 @@ export default {
         warning: 'var(--color-warning)',
         danger: 'var(--color-danger)',
         info: 'var(--color-info)',
-        background: {
-          primary: 'var(--background-primary)',
-          secondary: 'var(--background-secondary)',
-          tertiary: 'var(--background-tertiary)',
-          inverse: 'var(--background-inverse)',
-        },
-        text: {
-          primary: 'var(--text-primary)',
-          secondary: 'var(--text-secondary)',
-          tertiary: 'var(--text-tertiary)',
-          inverse: 'var(--text-inverse)',
-        },
-        border: {
-          default: 'var(--border-default)',
-          light: 'var(--border-light)',
-          dark: 'var(--border-dark)',
-        },
+      },
+      backgroundColor: {
+        primary: 'var(--background-primary)',
+        secondary: 'var(--background-secondary)',
+        tertiary: 'var(--background-tertiary)',
+        inverse: 'var(--background-inverse)',
+      },
+      textColor: {
+        primary: 'var(--text-primary)',
+        secondary: 'var(--text-secondary)',
+        tertiary: 'var(--text-tertiary)',
+        inverse: 'var(--text-inverse)',
+      },
+      borderColor: {
+        default: 'var(--border-default)',
+        light: 'var(--border-light)',
+        dark: 'var(--border-dark)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
