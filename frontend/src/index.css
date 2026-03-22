@@ -52,15 +52,18 @@
   }
 
   * {
-    @apply transition-colors duration-200;
+    transition-color: 0.2s;
   }
 
   body {
-    @apply bg-background-primary text-text-primary font-sans;
+    background-color: var(--background-primary);
+    color: var(--text-primary);
+    font-family: Inter, system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-bold tracking-tight;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 }
 
