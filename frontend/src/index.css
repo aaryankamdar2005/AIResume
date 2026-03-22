@@ -1,70 +1,69 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    /* Primary Colors */
-    --color-primary: #1a1a2e;
-    --color-primary-light: #16213e;
-    --color-primary-dark: #0f3460;
-    
-    /* Accent Colors */
-    --color-accent: #00d4ff;
-    --color-accent-secondary: #5c4d8c;
-    
-    /* Neutrals */
-    --color-neutral-0: #ffffff;
-    --color-neutral-50: #f8f9fa;
-    --color-neutral-100: #f0f2f5;
-    --color-neutral-200: #e5e7eb;
-    --color-neutral-300: #d1d5db;
-    --color-neutral-400: #9ca3af;
-    --color-neutral-500: #6b7280;
-    --color-neutral-600: #4b5563;
-    --color-neutral-700: #2d3748;
-    --color-neutral-800: #1a202c;
-    --color-neutral-900: #0f1419;
-    
-    /* Status Colors */
-    --color-success: #10B981;
-    --color-warning: #F59E0B;
-    --color-danger: #EF4444;
-    --color-info: #3B82F6;
-    
-    /* Semantic Tokens */
-    --background-primary: var(--color-neutral-0);
-    --background-secondary: var(--color-neutral-50);
-    --background-tertiary: var(--color-neutral-100);
-    --background-inverse: var(--color-primary);
-    
-    --text-primary: var(--color-neutral-900);
-    --text-secondary: var(--color-neutral-600);
-    --text-tertiary: var(--color-neutral-500);
-    --text-inverse: var(--color-neutral-50);
-    
-    --border-default: var(--color-neutral-200);
-    --border-light: var(--color-neutral-100);
-    --border-dark: var(--color-neutral-300);
-    
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
+:root {
+  /* Primary Colors */
+  --color-primary: #1a1a2e;
+  --color-primary-light: #16213e;
+  --color-primary-dark: #0f3460;
+  
+  /* Accent Colors */
+  --color-accent: #00d4ff;
+  --color-accent-secondary: #5c4d8c;
+  
+  /* Neutrals */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f8f9fa;
+  --color-neutral-100: #f0f2f5;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #2d3748;
+  --color-neutral-800: #1a202c;
+  --color-neutral-900: #0f1419;
+  
+  /* Status Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* Semantic Tokens */
+  --background-primary: var(--color-neutral-0);
+  --background-secondary: var(--color-neutral-50);
+  --background-tertiary: var(--color-neutral-100);
+  --background-inverse: var(--color-primary);
+  
+  --text-primary: var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-600);
+  --text-tertiary: var(--color-neutral-500);
+  --text-inverse: var(--color-neutral-50);
+  
+  --border-default: var(--color-neutral-200);
+  --border-light: var(--color-neutral-100);
+  --border-dark: var(--color-neutral-300);
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
 
-  * {
-    transition-color: 0.2s;
-  }
+* {
+  transition: color 0.2s ease;
+}
 
-  body {
-    background-color: var(--background-primary);
-    color: var(--text-primary);
-    font-family: Inter, system-ui, sans-serif;
-  }
+body {
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.6;
+}
 
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* Custom scrollbar for editors */

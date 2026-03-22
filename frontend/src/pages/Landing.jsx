@@ -43,7 +43,7 @@ const Landing = () => {
         </div>
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background-primary/40 via-background-primary/20 to-background-primary/90 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background-primary/50 via-background-primary/30 to-background-primary/95 pointer-events-none" />
 
         {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-8 text-center pt-20 pb-32">
@@ -64,7 +64,7 @@ const Landing = () => {
             Transform your career narrative with our intelligent AI that understands what recruiters want. Build an ATS-optimized resume that gets results.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20 animate-slide-in-up">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-32 animate-slide-in-up">
             <Link
               to="/register"
               className="group flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-bold rounded-lg text-lg hover:bg-primary-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
@@ -81,7 +81,7 @@ const Landing = () => {
           </div>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-32">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-20">
             {[
               {
                 icon: <Sparkles className="w-6 h-6" />,
@@ -113,6 +113,129 @@ const Landing = () => {
           </div>
         </div>
       </main>
+
+      {/* How It Works Section */}
+      <section className="relative z-10 py-24 md:py-32 bg-background-primary">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">How It Works</h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+              Building a professional resume has never been easier. Follow these simple steps to transform your career.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[
+              { step: '1', title: 'Add Your Info', description: 'Enter your work experience, education, and skills' },
+              { step: '2', title: 'AI Enhancement', description: 'Our AI polishes and improves your bullet points' },
+              { step: '3', title: 'Customize Design', description: 'Choose from professional templates or create custom' },
+              { step: '4', title: 'Download & Apply', description: 'Export as PDF and start landing interviews' },
+            ].map((item, idx) => (
+              <div key={idx} className="relative">
+                <div className="bg-background-secondary border border-border-light rounded-xl p-8 text-center hover:border-accent/50 transition-all">
+                  <div className="w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-6">
+                    {item.step}
+                  </div>
+                  <h3 className="font-bold text-lg mb-3">{item.title}</h3>
+                  <p className="text-text-secondary text-sm">{item.description}</p>
+                </div>
+                {idx < 3 && (
+                  <div className="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 text-border-light">
+                    <ArrowRight className="w-8 h-8" />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="relative z-10 py-24 md:py-32 bg-background-secondary">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-8">Why Choose AIResume?</h2>
+              <ul className="space-y-6">
+                {[
+                  'Save hours of resume writing and editing time',
+                  'AI technology optimized for applicant tracking systems',
+                  'Real-time feedback on content quality and clarity',
+                  'Multiple professional templates and formats',
+                  'Free updates and improvements to your resume',
+                  'Export in multiple formats (PDF, DOCX, etc.)',
+                ].map((benefit, idx) => (
+                  <li key={idx} className="flex items-start gap-4">
+                    <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
+                    <span className="text-lg text-text-primary font-medium">{benefit}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-background-primary rounded-2xl border border-border-light p-10 shadow-lg">
+              <div className="space-y-8">
+                {[
+                  { icon: '📊', stat: '10,000+', label: 'Resumes Created' },
+                  { icon: '⭐', stat: '4.8/5', label: 'User Rating' },
+                  { icon: '🚀', stat: '3x', label: 'Interview Increase' },
+                ].map((item, idx) => (
+                  <div key={idx} className="border-b border-border-light pb-6 last:border-b-0 last:pb-0">
+                    <div className="text-3xl mb-2">{item.icon}</div>
+                    <p className="text-3xl font-bold text-primary mb-2">{item.stat}</p>
+                    <p className="text-text-secondary">{item.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="relative z-10 py-24 md:py-32 bg-background-primary">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Loved by Job Seekers</h2>
+            <p className="text-lg text-text-secondary">See what users are saying about AIResume</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                quote: 'AIResume helped me land 3 interviews within a week. The AI suggestions were incredibly helpful!',
+                author: 'Sarah Johnson',
+                role: 'Marketing Manager',
+              },
+              {
+                quote: 'I was skeptical about AI-written resumes, but the quality was amazing. Highly recommended!',
+                author: 'Michael Chen',
+                role: 'Software Engineer',
+              },
+              {
+                quote: 'The job matching feature is a game-changer. Got my dream job after using AIResume.',
+                author: 'Emma Williams',
+                role: 'Product Designer',
+              },
+            ].map((testimonial, idx) => (
+              <div
+                key={idx}
+                className="bg-background-secondary border border-border-light rounded-xl p-8 hover:border-accent/50 transition-all"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-accent text-lg">★</span>
+                  ))}
+                </div>
+                <p className="text-text-primary font-medium mb-6 leading-relaxed">"{testimonial.quote}"</p>
+                <div className="border-t border-border-light pt-4">
+                  <p className="font-bold text-text-primary">{testimonial.author}</p>
+                  <p className="text-text-secondary text-sm">{testimonial.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Footer Section */}
       <section className="relative z-10 bg-primary text-text-inverse py-16 md:py-20">
