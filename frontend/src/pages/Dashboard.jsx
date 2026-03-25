@@ -26,12 +26,14 @@ const Dashboard = () => {
     fetchResumes();
   }, [fetchResumes]);
 
-  const handleCreateNew = async () => {
+  const handleCreateNew = async (mode = 'manual') => {
     setIsCreating(true);
+    // Ensure mode is a string and not an event object
+    const actualMode = typeof mode === 'string' ? mode : 'manual';
     const newResume = await createResume({ title: 'Untitled Resume' });
     setIsCreating(false);
     if (newResume) {
-      navigate(`/editor/${newResume._id}/manual`);
+      navigate(`/editor/${newResume._id}/${actualMode}`);
     }
   };
 
@@ -287,16 +289,33 @@ const Dashboard = () => {
           {/* New Project Placeholder */}
           <motion.div 
             variants={itemVariants}
-            onClick={handleCreateNew}
-            className="group cursor-pointer"
+            className="group relative"
           >
-            <div className="aspect-[1/1.414] bg-white border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-6 gap-4 group-hover:border-brand-primary group-hover:bg-brand-primary/5 transition-all duration-300">
+            <div className="aspect-[1/1.414] bg-white border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-6 gap-6 group-hover:border-brand-primary group-hover:bg-brand-primary/5 transition-all duration-300">
               <div className="p-4 bg-gray-50 rounded-full text-gray-400 group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
                 <Plus className="w-8 h-8" />
               </div>
+              
+              <div className="flex flex-col gap-3 w-full max-w-[160px]">
+                <button 
+                  onClick={() => handleCreateNew('ai')}
+                  disabled={isCreating}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-ai text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-brand-ai/20 hover:bg-brand-ai/90 transition-all disabled:opacity-50"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  AI Orchestrator
+                </button>
+                <button 
+                  onClick={() => handleCreateNew('manual')}
+                  disabled={isCreating}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-100 text-text-primary text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50"
+                >
+                  Manual Build
+                </button>
+              </div>
+
               <div className="text-center">
-                <p className="font-bold text-sm text-gray-500 group-hover:text-brand-primary transition-colors">Orchestrate New</p>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">AI Blueprint Ready</p>
+                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">Architecture Engine v1.0</p>
               </div>
             </div>
           </motion.div>

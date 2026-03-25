@@ -85,11 +85,14 @@ const ManualResumeEditor = () => {
             { icon: Layout, label: 'Templates' },
             { icon: Type, label: 'Typography' },
             { icon: Layers, label: 'Sections' },
-            { icon: Sparkles, label: 'AI Tools' },
+            { icon: Sparkles, label: 'AI Builder', onClick: () => navigate(`/editor/${id}/ai`) },
           ].map((item, i) => (
             <div key={i} className="group relative">
-              <button className="p-3 text-gray-400 hover:text-brand-primary hover:bg-brand-primary/5 rounded-xl transition-all">
-                <item.icon className="w-6 h-6" />
+              <button 
+                onClick={item.onClick}
+                className="p-3 text-gray-400 hover:text-brand-primary hover:bg-brand-primary/5 rounded-xl transition-all"
+              >
+                <item.icon className={`w-6 h-6 ${item.label === 'AI Builder' ? 'text-brand-ai' : ''}`} />
               </button>
               {/* Custom Tooltip Replacement */}
               <div className="absolute left-full ml-4 px-2 py-1 bg-gray-900 text-white text-[10px] font-bold rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50 uppercase tracking-widest translate-y-[-150%]">
