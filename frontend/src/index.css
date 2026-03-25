@@ -1,33 +1,71 @@
 @import "tailwindcss";
 
+@theme {
+  /* Colors */
+  --color-app-bg: #F8F9FA;
+  --color-surface-card: #FFFFFF;
+  --color-brand-primary: #4F46E5;
+  --color-brand-ai: #7C3AED;
+  --color-text-primary: #0F172A;
+  
+  /* Palette Aliases */
+  --color-navy: #0F172A;
+  --color-blue: #4F46E5;
+  --color-purple: #7C3AED;
+  
+  /* Shadows */
+  --shadow-ai-panel: 0 8px 30px rgb(0, 0, 0, 0.04);
+  --shadow-active: 0 1px 2px 0 rgb(0, 0, 0, 0.05);
+  --shadow-2xl: 0 25px 50px -12px rgb(0, 0, 0, 0.25);
+
+  /* Fonts */
+  --font-sans: "Inter", "Geist", "ui-sans-serif", "system-ui";
+  --font-serif: "Merriweather", "ui-serif", "Georgia", "serif";
+}
+
 @layer base {
   :root {
-    --color-success: #10B981;
-    --color-warning: #F59E0B;
-    --color-danger: #EF4444;
+    --bg-app: #F8F9FA;
+    --surface-card: #FFFFFF;
+    --brand-primary: #4F46E5;
+    --brand-ai: #7C3AED;
+    --text-primary: #0F172A;
+  }
+  
+  body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
   }
 }
 
-/* Custom scrollbar for editors */
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-md bg-white/70;
+  }
+  
+  .dot-matrix {
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: var(--color-slate);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-silver);
-  border-radius: 9999px;
+  background: #e2e8f0;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-blue);
+  background: #cbd5e1;
 }
 
-/* Resume document drop shadow */
-.resume-shadow {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0,0,0,0.05);
-}
