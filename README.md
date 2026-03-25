@@ -11,11 +11,7 @@ An intelligent platform for high-performance resume generation and career strate
 - **Blueprint Architect**: A dedicated IDE-style workspace for manual precision, ensuring total control over the resume's structural foundation.
 - **LaTeX-Fidelity PDF Export**: High-resolution, multi-format export powered by Puppeteer to ensure your document renders perfectly in every digital and physical environment.
 
-## 🛡️ Enterprise Architecture
 
-- **Spatial "Copilot Canvas"**: A workspace designed for synergy between AI-driven suggestions and human-driven manual refinement.
-- **Bento Dashboard**: At-a-glance portfolio management with real-time analytics on document readiness and career pulse.
-- **Kinetic Landing Experience**: Demonstrates the transition from unorganized data (Chaos) to structured professional identity (Structure).
 
 ## 💻 Technical Infrastructure
 
@@ -52,4 +48,4 @@ AIResume/
 
 ---
 
-*Architected and Engineered by Antigravity*
+
