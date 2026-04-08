@@ -43,6 +43,7 @@ app.use('/api/resumes', require('./routes/resumeRoutes'));
 app.use('/api/ai', require('./routes/aiRoutes'));
 app.use('/api/analyze', require('./routes/analyzerRoutes'));
 app.use('/api/export', require('./routes/exportRoutes'));
+app.use('/api/interview', require('./routes/interviewRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

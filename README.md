@@ -6,6 +6,9 @@ An intelligent platform for high-performance resume generation and career strate
 
 - **Prompt-Driven Resume Generation**: Create professional resumes instantly by providing natural language prompts. The AI engine handles formatting, structure, and content synthesis.
 - **Contextual AI Bullet Optimization**: Refine existing experiences with LLM-driven verb optimization and metric-focused results. Adjust tone (e.g., "Make this more executive" or "Make this more technical") via the AI Copilot.
+- **AI Mock Interview Room**: An immersive, real-time simulation suite. Generates 3 tailored technical questions based on your resume and target JD.
+- **Neural Transcription & Scoring**: Integrated **Whisper-large-v3** for real-time audio transcription and **Llama-3.3-70B** for scoring and improvement feedback.
+- **Plagiarism Core**: Integrated external API validation to detect generic or copied content, ensuring original professional narratives.
 - **Matrix Match Analyzer**: Direct alignment of your resume against specific Job Descriptions. Identifies missing skills, structural gaps, and priority keywords required for target Applicant Tracking Systems.
 - **Neural Content Refinement**: Intelligent rewriting of weak bullet points into high-impact, quantified professional achievements.
 - **Blueprint Architect**: A dedicated IDE-style workspace for manual precision, ensuring total control over the resume's structural foundation.

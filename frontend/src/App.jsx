@@ -13,6 +13,8 @@ import AiResumeEditor from './pages/AiResumeEditor';
 import ManualResumeEditor from './pages/ManualResumeEditor';
 import Landing from './pages/Landing';
 import Analyzer from './pages/Analyzer';
+import InterviewPreparation from './pages/InterviewPreparation';
+import NotFound from './pages/NotFound';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuthStore();
@@ -61,6 +63,14 @@ function App() {
               } 
             />
             <Route 
+              path="/interview" 
+              element={
+                <ProtectedRoute>
+                  <InterviewPreparation />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
               path="/editor/:id/manual" 
               element={
                 <ProtectedRoute>
@@ -77,6 +87,7 @@ function App() {
               } 
             />
             <Route path="/" element={<Landing />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
     </div>

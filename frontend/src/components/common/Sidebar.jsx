@@ -41,6 +41,7 @@ const Sidebar = () => {
         <div className="text-xs font-bold uppercase tracking-wider text-gray-400 px-4 mb-3">Menu</div>
         <NavItem to="/dashboard" icon={LayoutDashboard} label="My Resumes" />
         <NavItem to="/analyzer" icon={Zap} label="AI Analyzer" />
+        <NavItem to="/interview" icon={Zap} label="Mock Interview" />
       </nav>
 
       <div className="p-4 border-t border-gray-100">
