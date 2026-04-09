@@ -31,6 +31,8 @@ const InterviewPreparation = () => {
   const webcamRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const [recordedChunks, setRecordedChunks] = useState([]);
+  const recognitionRef = useRef(null);
+  const [liveTranscript, setLiveTranscript] = useState('');
 
   // ---- STEP 1: SETUP ----
   const handleGenerateQuestions = async () => {
@@ -75,21 +77,61 @@ const InterviewPreparation = () => {
 
   const handleStartCaptureClick = React.useCallback(() => {
     setRecordedChunks([]);
+    setLiveTranscript('');
     const stream = webcamRef.current.stream;
     if (stream) {
-      mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      const audioTracks = stream.getAudioTracks();
+      if (audioTracks.length === 0) {
+        setError("No audio tracks found. Please check your microphone permissions.");
+        return;
+      }
+      const audioStream = new MediaStream(audioTracks);
+
+      let options = { mimeType: 'audio/webm' };
+      if (!MediaRecorder.isTypeSupported('audio/webm')) {
+        options = {};
+      }
+
+      mediaRecorderRef.current = new MediaRecorder(audioStream, options);
       mediaRecorderRef.current.addEventListener('dataavailable', handleDataAvailable);
       mediaRecorderRef.current.start();
       setIsRecording(true);
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = true;
+        recognitionRef.current.interimResults = true;
+        recognitionRef.current.onresult = (event) => {
+          let transcript = '';
+          for (let i = 0; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          setLiveTranscript(transcript);
+        };
+        recognitionRef.current.onerror = (e) => console.error("Speech recognition error:", e.error);
+        try {
+          recognitionRef.current.start();
+        } catch (e) {
+          console.error("Speech recognition start error:", e);
+        }
+      }
     } else {
       setError("Webcam stream not found. Please allow camera and microphone access.");
     }
   }, [webcamRef]);
 
   const handleStopCaptureClick = React.useCallback(() => {
-    if (mediaRecorderRef.current) {
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
+    }
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {
+        console.error("Failed to stop recognition", e);
+      }
     }
   }, []);
 
@@ -106,15 +148,22 @@ const InterviewPreparation = () => {
         const formData = new FormData();
         formData.append('audio', audioBlob, 'recording.webm');
         
-        // Transcribe
-        const transcribeRes = await api.post('/interview/transcribe', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        currentAnswerText = transcribeRes.data.text;
-      } else if (!typedAnswer.trim()) {
+        try {
+          // Transcribe
+          const transcribeRes = await api.post('/interview/transcribe', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+          currentAnswerText = transcribeRes.data.text || liveTranscript;
+        } catch (transcribeError) {
+          console.error("Backend transcription failed, falling back to live transcript", transcribeError);
+          currentAnswerText = liveTranscript || typedAnswer;
+        }
+      } else if (!typedAnswer.trim() && !liveTranscript.trim()) {
         setError("Please record an audio answer or type your response.");
         setIsLoading(false);
         return;
+      } else if (!typedAnswer.trim()) {
+        currentAnswerText = liveTranscript;
       }
 
       // Chain to score
@@ -308,6 +357,13 @@ const InterviewPreparation = () => {
                       Audio Recorded
                     </div>
                   )}
+                  {liveTranscript && (
+                    <div className="absolute bottom-24 left-4 right-4 bg-black/60 p-3 rounded-xl backdrop-blur-md border border-white/10 shadow-2xl z-10 max-h-32 overflow-y-auto">
+                      <p className="text-white text-sm font-medium leading-relaxed">
+                        {liveTranscript}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Text Fallback & Submit */}
@@ -318,15 +374,18 @@ const InterviewPreparation = () => {
                   <textarea 
                     placeholder="If you prefer not to use the camera, you can type your answer here..."
                     className="flex-1 w-full p-4 border border-gray-200 rounded-xl focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/30 outline-none text-sm transition-all resize-none"
-                    value={typedAnswer}
-                    onChange={(e) => setTypedAnswer(e.target.value)}
-                    disabled={recordedChunks.length > 0} 
+                    value={typedAnswer || liveTranscript}
+                    onChange={(e) => {
+                      setLiveTranscript('');
+                      setTypedAnswer(e.target.value);
+                    }}
+                    disabled={recordedChunks.length > 0 && !liveTranscript} 
                   />
                   
                   <div className="mt-6 flex justify-end">
                     <button
                       onClick={handleSubmitAnswer}
-                      disabled={isLoading}
+                      disabled={isLoading || isRecording}
                       className="flex items-center justify-center gap-2 w-full px-6 py-4 bg-text-primary text-white font-bold rounded-xl shadow-lg hover:bg-gray-800 transition-all disabled:opacity-50"
                     >
                       {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
