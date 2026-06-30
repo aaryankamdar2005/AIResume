@@ -13,7 +13,7 @@ const allowedOrigins = frontendUrls.map(url => url.replace(/\/$/, '').trim());
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    
+
     const normalizedOrigin = origin.replace(/\/$/, '').trim();
     if (allowedOrigins.includes(normalizedOrigin)) {
       return callback(null, true);

@@ -118,45 +118,7 @@ exports.transcribeAudio = async (req, res) => {
   }
 };
 
-// Helper function to call external Plagiarism API (RapidAPI - Plagiarism Checker API)
-async function checkExternalPlagiarism(text) {
-  if (!process.env.RAPIDAPI_KEY) {
-    console.log("No RAPIDAPI_KEY found, skipping external plagiarism check.");
-    return { percentage: 0, isPlagiarized: false };
-  }
-  
-  try {
-    // Example using a popular free-tier RapidAPI Plagiarism Checker
-    const response = await fetch('https://plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com/plagiarism', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': process.env.RAPIDAPI_KEY,
-        'X-RapidAPI-Host': 'plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com'
-      },
-      body: JSON.stringify({
-        text: text,
-        language: 'en',
-        includeCitations: false,
-        scrapeSources: false
-      })
-    });
-    
-    if (!response.ok) throw new Error("API request failed");
-    
-    const result = await response.json();
-    // Adjust this parsing based on the exact API response structure you choose
-    const percentPlagiarism = result.percentPlagiarism || result.plagiarismPercentage || 0;
-    
-    return {
-      percentage: percentPlagiarism,
-      isPlagiarized: percentPlagiarism > 30 // Threshold of 30%
-    };
-  } catch (error) {
-    console.error("External Plagiarism API Error:", error.message);
-    return { percentage: 0, isPlagiarized: false };
-  }
-}
+
 
 exports.scoreAnswer = async (req, res) => {
   try {
@@ -168,19 +130,11 @@ exports.scoreAnswer = async (req, res) => {
       return res.status(400).json({ message: 'Question and answerText are required.' });
     }
     
-    // 1. Run external API plagiarism check
-    const plagiarismData = await checkExternalPlagiarism(answerText);
-
-    // 2. Run LLM scoring
+    // Run LLM scoring
     const systemPrompt = `You are an expert Technical Recruiter evaluating a candidate's answer during a Mock Interview.
 Review the question, the candidate's answer, and the Job Description contextual constraints.
 
-IMPORTANT PLAGIARISM CONTEXT:
-The external Plagiarism API has scanned this text and determined it is ${plagiarismData.percentage}% plagiarized.
-If the text is heavily plagiarized from generic online sources or the exact job description, you MUST provide a low score.
-
 Provide a score out of 10 and exactly 2 brief sentences of constructive improvement tip.
-If the candidate's answer is plagiarized, mention that in the feedback.
 
 Return ONLY a JSON object exactly matching this schema. Do NOT use markdown formatting outside the JSON.
 
@@ -202,15 +156,6 @@ Return ONLY a JSON object exactly matching this schema. Do NOT use markdown form
 
     const rawResult = response.choices[0].message.content.trim();
     const resultJson = JSON.parse(rawResult);
-    
-    // Deterministic score reduction if plagiarism is high (just to be safe if LLM is generous)
-    if (plagiarismData.isPlagiarized) {
-      resultJson.score = Math.max(1, resultJson.score - 4); 
-    }
-    
-    // Attach API plagiarism results directly
-    resultJson.plagiarism_percentage = plagiarismData.percentage;
-    resultJson.is_plagiarized = plagiarismData.isPlagiarized;
 
     res.status(200).json(resultJson);
   } catch (error) {

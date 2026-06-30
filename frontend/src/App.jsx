@@ -10,7 +10,6 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AiResumeEditor from './pages/AiResumeEditor';
-import ManualResumeEditor from './pages/ManualResumeEditor';
 import Landing from './pages/Landing';
 import Analyzer from './pages/Analyzer';
 import InterviewPreparation from './pages/InterviewPreparation';
@@ -67,14 +66,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <InterviewPreparation />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/editor/:id/manual" 
-              element={
-                <ProtectedRoute>
-                  <ManualResumeEditor />
                 </ProtectedRoute>
               } 
             />

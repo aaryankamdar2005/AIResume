@@ -62,6 +62,23 @@ const useResumeStore = create((set, get) => ({
     }
   },
 
+  deleteResume: async (id) => {
+    try {
+      set({ isLoading: true, error: null });
+      await api.delete(`/resumes/${id}`);
+      
+      set((state) => ({
+        resumes: state.resumes.filter(r => r._id !== id),
+        currentResume: state.currentResume?._id === id ? null : state.currentResume,
+        isLoading: false
+      }));
+      return true;
+    } catch (error) {
+      set({ error: error.response?.data?.message || 'Failed to delete resume', isLoading: false });
+      return false;
+    }
+  },
+
   fetchVersions: async (id) => {
     try {
       set({ isLoading: true, error: null });

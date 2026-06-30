@@ -85,7 +85,7 @@ exports.analyzeResumeAgainstJD = async (req, res) => {
     if (jdFile) {
       parsedJdText = await extractTextFromFile(jdFile);
     }
-    
+
     // truncate logic roughly 4 chars per token, keeping it safely under 20k tokens
     const maxChars = 80000;
     const cleanResume = parsedResumeText.slice(0, maxChars);
@@ -131,7 +131,7 @@ RULES:
 
     const response = await attemptGroqCall(systemPrompt, userPrompt, 0.1);
     const rawResult = response.choices[0].message.content.trim();
-    
+
     let resultJson;
     let cleanResult = rawResult;
     if (cleanResult.startsWith('```json')) {
@@ -139,10 +139,10 @@ RULES:
     } else if (cleanResult.startsWith('```')) {
       cleanResult = cleanResult.replace(/```/g, '').trim();
     }
-    
+
     try {
       resultJson = JSON.parse(cleanResult);
-    } catch(e) {
+    } catch (e) {
       // attempt to sanitize further if there's trailing or leading text
       const match = cleanResult.match(/\{[\s\S]*\}/);
       if (match) {

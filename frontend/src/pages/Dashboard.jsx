@@ -26,14 +26,12 @@ const Dashboard = () => {
     fetchResumes();
   }, [fetchResumes]);
 
-  const handleCreateNew = async (mode = 'manual') => {
+  const handleCreateNew = async () => {
     setIsCreating(true);
-    // Ensure mode is a string and not an event object
-    const actualMode = typeof mode === 'string' ? mode : 'manual';
     const newResume = await createResume({ title: 'Untitled Resume' });
     setIsCreating(false);
     if (newResume) {
-      navigate(`/editor/${newResume._id}/${actualMode}`);
+      navigate(`/editor/${newResume._id}/ai`);
     }
   };
 
@@ -216,7 +214,7 @@ const Dashboard = () => {
                 initial="hidden"
                 animate="visible"
                 exit={{ scale: 0.9, opacity: 0 }}
-                onClick={() => navigate(`/editor/${resume._id}/manual`)}
+                onClick={() => navigate(`/editor/${resume._id}/ai`)}
                 className="group relative"
               >
                 {/* A4 Card Container */}
@@ -239,7 +237,7 @@ const Dashboard = () => {
                   <div className="absolute inset-0 bg-brand-primary/0 group-hover:bg-brand-primary/5 transition-colors flex items-center justify-center pointer-events-none">
                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 translate-y-4 transition-all duration-300 pointer-events-auto">
                       <button 
-                        onClick={(e) => { e.stopPropagation(); navigate(`/editor/${resume._id}/manual`); }}
+                        onClick={(e) => { e.stopPropagation(); navigate(`/editor/${resume._id}/ai`); }}
                         className="p-3 bg-white rounded-full text-brand-primary shadow-xl hover:scale-110 transition-transform border border-brand-primary/10"
                       >
                         <Edit3 className="w-5 h-5" />
@@ -289,33 +287,21 @@ const Dashboard = () => {
           {/* New Project Placeholder */}
           <motion.div 
             variants={itemVariants}
-            className="group relative"
+            className="group relative cursor-pointer"
+            onClick={() => !isCreating && handleCreateNew()}
           >
             <div className="aspect-[1/1.414] bg-white border-2 border-dashed border-gray-200 rounded-2xl flex flex-col items-center justify-center p-6 gap-6 group-hover:border-brand-primary group-hover:bg-brand-primary/5 transition-all duration-300">
               <div className="p-4 bg-gray-50 rounded-full text-gray-400 group-hover:bg-brand-primary group-hover:text-white transition-all shadow-sm">
-                <Plus className="w-8 h-8" />
+                {isCreating ? (
+                  <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <Plus className="w-8 h-8" />
+                )}
               </div>
               
-              <div className="flex flex-col gap-3 w-full max-w-[160px]">
-                <button 
-                  onClick={() => handleCreateNew('ai')}
-                  disabled={isCreating}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-ai text-white text-[10px] font-black uppercase tracking-widest rounded-xl shadow-lg shadow-brand-ai/20 hover:bg-brand-ai/90 transition-all disabled:opacity-50"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  AI Orchestrator
-                </button>
-                <button 
-                  onClick={() => handleCreateNew('manual')}
-                  disabled={isCreating}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-100 text-text-primary text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50"
-                >
-                  Manual Build
-                </button>
-              </div>
-
-              <div className="text-center">
-                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em]">Architecture Engine v1.0</p>
+              <div className="text-center mt-4">
+                <p className="text-sm font-bold text-gray-700">Create New Resume</p>
+                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-2">Architecture Engine v1.0</p>
               </div>
             </div>
           </motion.div>

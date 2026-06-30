@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import Webcam from 'react-webcam';
-import { 
-  FileText, Upload, Briefcase, Play, Mic, MicOff, Video, 
-  Send, Loader2, CheckCircle2, ChevronRight, Activity, Sparkles 
+import {
+  FileText, Upload, Briefcase, Play, Mic, MicOff, Video,
+  Send, Loader2, CheckCircle2, ChevronRight, Activity, Sparkles
 } from 'lucide-react';
 
 const InterviewPreparation = () => {
@@ -18,13 +18,13 @@ const InterviewPreparation = () => {
   const [resumeFile, setResumeFile] = useState(null);
   const [jdFile, setJdFile] = useState(null);
   const [jdText, setJdText] = useState('');
-  
+
   // Step 2 Data
   const [questions, setQuestions] = useState([]);
   const [processedJdText, setProcessedJdText] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]); // { question, typedText, transcribedText, audioBlob, score, feedback }
-  
+
   // Interview Room State
   const [isRecording, setIsRecording] = useState(false);
   const [typedAnswer, setTypedAnswer] = useState('');
@@ -138,7 +138,7 @@ const InterviewPreparation = () => {
   const handleSubmitAnswer = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     let currentAnswerText = typedAnswer;
 
     try {
@@ -147,7 +147,7 @@ const InterviewPreparation = () => {
         const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
         const formData = new FormData();
         formData.append('audio', audioBlob, 'recording.webm');
-        
+
         try {
           // Transcribe
           const transcribeRes = await api.post('/interview/transcribe', formData, {
@@ -215,7 +215,7 @@ const InterviewPreparation = () => {
 
   return (
     <div className="flex-1 overflow-y-auto bg-app-bg p-6 lg:p-10 font-sans text-text-primary custom-scrollbar">
-      <motion.div 
+      <motion.div
         className="max-w-5xl mx-auto w-full space-y-8"
         initial="hidden"
         animate="visible"
@@ -239,14 +239,14 @@ const InterviewPreparation = () => {
         <AnimatePresence mode="wait">
           {/* STEP 1: SETUP */}
           {step === 1 && (
-            <motion.div 
+            <motion.div
               key="step1"
               variants={itemVariants}
               initial="hidden" animate="visible" exit="hidden"
               className="bg-surface-card rounded-[2rem] p-8 shadow-ai-panel border border-gray-100/50"
             >
               <h2 className="text-xl font-bold tracking-tight mb-6">Upload Context</h2>
-              
+
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <label className="flex items-center gap-2 text-sm font-bold text-gray-700">
@@ -278,7 +278,7 @@ const InterviewPreparation = () => {
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-3">OR PASTE</span>
                       </div>
                     </div>
-                    <textarea 
+                    <textarea
                       placeholder="Paste job description text here..."
                       className="w-full h-32 p-4 border border-gray-200 rounded-xl focus:border-brand-ai focus:ring-1 focus:ring-brand-ai/30 outline-none text-sm transition-all"
                       value={jdText}
@@ -303,7 +303,7 @@ const InterviewPreparation = () => {
 
           {/* STEP 2: INTERVIEW ROOM */}
           {step === 2 && (
-            <motion.div 
+            <motion.div
               key="step2"
               variants={itemVariants}
               initial="hidden" animate="visible" exit="hidden"
@@ -323,22 +323,22 @@ const InterviewPreparation = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Video/Audio Area */}
                 <div className="bg-black rounded-[2rem] overflow-hidden relative shadow-2xl flex flex-col items-center justify-center min-h-[300px]">
-                  <Webcam 
-                    audio={true} 
-                    ref={webcamRef} 
+                  <Webcam
+                    audio={true}
+                    ref={webcamRef}
                     className="w-full h-full object-cover opacity-90"
                     muted={true}
                   />
                   <div className="absolute bottom-6 flex justify-center w-full gap-4">
                     {isRecording ? (
-                      <button 
+                      <button
                         onClick={handleStopCaptureClick}
                         className="p-4 bg-red-500 rounded-full text-white shadow-lg shadow-red-500/50 hover:scale-105 transition-all animate-pulse"
                       >
                         <MicOff className="w-6 h-6" />
                       </button>
                     ) : (
-                      <button 
+                      <button
                         onClick={handleStartCaptureClick}
                         className="p-4 bg-white rounded-full text-gray-900 shadow-lg hover:scale-105 transition-all"
                       >
@@ -371,7 +371,7 @@ const InterviewPreparation = () => {
                   <h3 className="text-sm font-bold text-gray-400 mb-3 uppercase tracking-widest flex items-center gap-2">
                     <FileText className="w-4 h-4" /> Optional: Type response
                   </h3>
-                  <textarea 
+                  <textarea
                     placeholder="If you prefer not to use the camera, you can type your answer here..."
                     className="flex-1 w-full p-4 border border-gray-200 rounded-xl focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/30 outline-none text-sm transition-all resize-none"
                     value={typedAnswer || liveTranscript}
@@ -379,9 +379,9 @@ const InterviewPreparation = () => {
                       setLiveTranscript('');
                       setTypedAnswer(e.target.value);
                     }}
-                    disabled={recordedChunks.length > 0 && !liveTranscript} 
+                    disabled={recordedChunks.length > 0 && !liveTranscript}
                   />
-                  
+
                   <div className="mt-6 flex justify-end">
                     <button
                       onClick={handleSubmitAnswer}
@@ -399,7 +399,7 @@ const InterviewPreparation = () => {
 
           {/* STEP 3: DASHBOARD */}
           {step === 3 && (
-            <motion.div 
+            <motion.div
               key="step3"
               variants={itemVariants}
               initial="hidden" animate="visible" exit="hidden"
@@ -437,23 +437,9 @@ const InterviewPreparation = () => {
                         )}
                       </div>
                     </div>
-                    
-                    {/* PLAGIARISM REPORT BLOCK */}
-                    <div className={`mb-5 p-4 rounded-xl border ${ans.is_plagiarized ? 'bg-red-50 border-red-100' : 'bg-green-50 border-green-100'}`}>
-                      <div className="flex justify-between items-center mb-2">
-                        <h4 className={`text-xs font-bold uppercase tracking-widest flex items-center gap-2 ${ans.is_plagiarized ? 'text-red-700' : 'text-green-700'}`}>
-                          <Activity className="w-4 h-4" /> Plagiarism Report
-                        </h4>
-                        <span className={`text-sm font-black ${ans.is_plagiarized ? 'text-red-600' : 'text-green-600'}`}>
-                          {ans.plagiarism_percentage}% Match
-                        </span>
-                      </div>
-                      <p className={`text-sm font-medium ${ans.is_plagiarized ? 'text-red-600' : 'text-green-700'}`}>
-                        {ans.is_plagiarized 
-                          ? '⚠️ High plagiarism detected. Your score was reduced because the response appears generic or directly copied.'
-                          : '✅ Content appears highly original.'}
-                      </p>
-                    </div>
+
+
+
 
                     <div className="space-y-4">
                       <div>
@@ -463,7 +449,7 @@ const InterviewPreparation = () => {
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-brand-ai uppercase tracking-widest mb-1 flex items-center gap-1"><Activity className="w-3 h-3"/> AI Feedback</p>
+                        <p className="text-xs font-bold text-brand-ai uppercase tracking-widest mb-1 flex items-center gap-1"><Activity className="w-3 h-3" /> AI Feedback</p>
                         <p className="text-sm font-medium text-gray-800">
                           {ans.feedback}
                         </p>
@@ -474,7 +460,7 @@ const InterviewPreparation = () => {
               </div>
 
               <div className="flex justify-center pt-6">
-                <button 
+                <button
                   onClick={() => {
                     setStep(1);
                     setAnswers([]);

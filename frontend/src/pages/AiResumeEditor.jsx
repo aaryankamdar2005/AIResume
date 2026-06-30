@@ -52,6 +52,19 @@ const AiResumeEditor = () => {
     fetchResumeById(id);
   }, [id, fetchResumeById]);
 
+  const hasInitialized = React.useRef(false);
+  useEffect(() => {
+    if (currentResume && !hasInitialized.current) {
+      hasInitialized.current = true;
+      if (currentResume.content && Object.keys(currentResume.content).length > 0) {
+        setInterviewStep('completed');
+        setChatMessages([
+          { role: 'ai', text: 'Welcome back! Your resume is loaded. What would you like to edit? Just tell me what to change and I will do it!' }
+        ]);
+      }
+    }
+  }, [currentResume]);
+
   if ((isLoading && !currentResume) || !currentResume) {
     return (
       <div className="flex flex-col h-screen items-center justify-center bg-gray-50 text-gray-600 gap-4 font-medium">
@@ -137,6 +150,8 @@ const AiResumeEditor = () => {
         if (success) {
           setChatMessages((prev) => [...prev, { role: 'ai', text: 'Boom! Check out your new resume on the right. You can read over it, and if there is anything you want to change, just ask me here in the chat!' }]);
           setInterviewStep('completed');
+          const latest = useResumeStore.getState().currentResume;
+          if (latest) await updateResume(id, latest);
         } else {
           setChatMessages((prev) => [...prev, { role: 'ai', text: 'Oops, something went wrong generating the resume. Try typing anything to trigger it again.' }]);
           setInterviewStep('skills'); // Let them try the final trigger again
@@ -151,6 +166,8 @@ const AiResumeEditor = () => {
     const success = await editResumeViaAI(userText);
     if (success) {
       setChatMessages((prev) => [...prev, { role: 'ai', text: 'I have updated the resume based on your feedback. How does it look now?' }]);
+      const latest = useResumeStore.getState().currentResume;
+      if (latest) await updateResume(id, latest);
     } else {
       setChatMessages((prev) => [...prev, { role: 'ai', text: 'Sorry, I ran into an error trying to make that change. Could you try phrasing it differently?' }]);
     }
@@ -171,13 +188,7 @@ const AiResumeEditor = () => {
         </div>
         
         <div className="flex items-center gap-4">
-          <button 
-            onClick={() => navigate(`/editor/${id}/manual`)}
-            className="hidden sm:inline-flex items-center text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors bg-gray-100 px-4 py-2 rounded-md hover:bg-gray-200"
-          >
-            <Edit3 className="w-4 h-4 mr-2" />
-            Manual Editor
-          </button>
+
           <button onClick={handleSave} className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors px-4 py-2 hover:bg-blue-50 rounded-md">
             <Save className="w-4 h-4 mr-2" /> Save
           </button>

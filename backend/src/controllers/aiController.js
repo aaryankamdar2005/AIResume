@@ -78,23 +78,23 @@ exports.editResumeWithAI = async (req, res) => {
     const response = await attemptGroqCall(systemPrompt, userPrompt, 0.1);
 
     let modifiedStateRaw = response.choices[0].message.content.trim();
-    
+
     // Extract JSON between the first { and the last }
     const jsonStart = modifiedStateRaw.indexOf('{');
     const jsonEnd = modifiedStateRaw.lastIndexOf('}');
-    
+
     if (jsonStart !== -1 && jsonEnd !== -1) {
       modifiedStateRaw = modifiedStateRaw.substring(jsonStart, jsonEnd + 1);
     }
 
     const modifiedContent = JSON.parse(modifiedStateRaw);
-    
+
     const modifiedState = {
       ...resumeState,
       content: modifiedContent,
       isLatexFormat: true // Enforce that this uses our LaTeX generator now
     };
-    
+
     res.status(200).json(modifiedState);
   } catch (error) {
     console.error('AI Edit Error:', error);
