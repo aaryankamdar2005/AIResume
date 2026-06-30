@@ -56,7 +56,14 @@ const AiResumeEditor = () => {
   useEffect(() => {
     if (currentResume && !hasInitialized.current) {
       hasInitialized.current = true;
-      if (currentResume.content && Object.keys(currentResume.content).length > 0) {
+      
+      const hasContent = currentResume.content && (
+        currentResume.content.summary || 
+        (currentResume.content.experience && currentResume.content.experience.length > 0) ||
+        (currentResume.content.education && currentResume.content.education.length > 0)
+      );
+
+      if (hasContent) {
         setInterviewStep('completed');
         setChatMessages([
           { role: 'ai', text: 'Welcome back! Your resume is loaded. What would you like to edit? Just tell me what to change and I will do it!' }
